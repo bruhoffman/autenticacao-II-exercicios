@@ -5,6 +5,9 @@ import { ZodError } from "zod"
 import { BaseError } from "../errors/BaseError"
 import { LoginSchema } from "../dtos/login.dto"
 import { SignupSchema } from "../dtos/signup.dto"
+import dotenv from 'dotenv'
+
+dotenv.config()
 
 export class UserController {
   constructor(
@@ -14,7 +17,8 @@ export class UserController {
   public getUsers = async (req: Request, res: Response) => {
     try {
       const input = GetUsersSchema.parse({
-        q: req.query.q
+        q: req.query.q,
+        token: req.headers.authorization
       })
 
       const output = await this.userBusiness.getUsers(input)
